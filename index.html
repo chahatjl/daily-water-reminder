@@ -13,7 +13,6 @@
   <title>Hydrate 💧</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
   <style>
-    /* ── TOKENS ─────────────────────────────────────── */
     :root{
       --bg:#0B0F1A; --surface:#141927; --card:#1C2233;
       --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.12);
@@ -25,15 +24,13 @@
     *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
     html,body{height:100%;font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
 
-    /* ── BACKGROUND ─────────────────────────────────── */
     .bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
     .bg-glow::before{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(74,158,255,.12) 0%,transparent 70%);top:-100px;left:-100px}
     .bg-glow::after{content:'';position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(0,212,255,.08) 0%,transparent 70%);bottom:-80px;right:-80px}
 
-    /* ── LAYOUT ─────────────────────────────────────── */
     .app{position:relative;z-index:1;max-width:420px;margin:0 auto;min-height:100vh;padding:0 0 100px;display:flex;flex-direction:column}
 
-    /* ── TOP BAR ─────────────────────────────────────── */
+    /* TOP BAR */
     .topbar{display:flex;align-items:center;justify-content:space-between;padding:max(env(safe-area-inset-top),20px) 20px 0}
     .topbar-left h1{font-size:1.05rem;font-weight:700;letter-spacing:.3px}
     .topbar-left .greeting{font-size:.78rem;color:var(--muted);font-weight:400;margin-top:1px}
@@ -42,38 +39,40 @@
     .icon-btn:hover{border-color:var(--blue);background:rgba(74,158,255,.1)}
     .icon-btn.active{background:rgba(74,158,255,.15);border-color:var(--blue)}
 
-    /* ── RING HERO ───────────────────────────────────── */
+    /* RING */
     .ring-section{display:flex;flex-direction:column;align-items:center;padding:28px 20px 4px;position:relative}
     .ring-wrap{position:relative;width:var(--ring-size);height:var(--ring-size)}
     .ring-svg{position:absolute;inset:0;transform:rotate(-90deg)}
     .ring-track{fill:none;stroke:var(--card);stroke-width:var(--ring-stroke);stroke-linecap:round}
-    .ring-fill{fill:none;stroke-width:var(--ring-stroke);stroke-linecap:round;
-      stroke:url(#ringGrad);transition:stroke-dashoffset .9s cubic-bezier(.34,1.56,.64,1);
-      filter:drop-shadow(0 0 8px rgba(74,158,255,.5))}
+    .ring-fill{fill:none;stroke-width:var(--ring-stroke);stroke-linecap:round;stroke:url(#ringGrad);transition:stroke-dashoffset .9s cubic-bezier(.34,1.56,.64,1);filter:drop-shadow(0 0 8px rgba(74,158,255,.5))}
     .ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
     .ring-ml{font-size:2.5rem;font-weight:800;letter-spacing:-1.5px;line-height:1}
     .ring-unit{font-size:.7rem;font-weight:600;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
     .ring-goal{font-size:.72rem;color:var(--muted);margin-top:2px}
     .ring-pct{font-size:.85rem;font-weight:700;color:var(--blue);margin-top:2px}
-
-    /* droplets orbiting */
-    .drop-orbit{position:absolute;inset:-12px;animation:orbit 8s linear infinite;pointer-events:none}
-    @keyframes orbit{to{transform:rotate(360deg)}}
-    .drop-dot{position:absolute;top:0;left:50%;transform:translateX(-50%);width:10px;height:10px;border-radius:50%;background:var(--cyan);opacity:.7;filter:blur(1px)}
-
-    /* streak badge */
     .streak-badge{display:flex;align-items:center;gap:6px;background:rgba(255,209,102,.1);border:1px solid rgba(255,209,102,.25);border-radius:20px;padding:6px 14px;margin-top:16px;font-size:.78rem;font-weight:700;color:var(--gold)}
 
-    /* ── DATE STRIP ──────────────────────────────────── */
+    /* AI MESSAGE PREVIEW */
+    .ai-message-strip{margin:4px 20px 0;background:linear-gradient(135deg,rgba(74,158,255,.08),rgba(155,109,255,.06));border:1px solid rgba(74,158,255,.18);border-radius:16px;padding:14px 16px;display:flex;align-items:flex-start;gap:10px;min-height:56px}
+    .ai-msg-icon{font-size:1.2rem;flex-shrink:0;margin-top:1px}
+    .ai-msg-body{flex:1}
+    .ai-msg-label{font-size:.58rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:4px}
+    .ai-msg-text{font-size:.82rem;font-weight:600;color:var(--text);line-height:1.5}
+    .ai-msg-text.loading{color:var(--muted);font-style:italic}
+    .ai-refresh{background:none;border:none;cursor:pointer;font-size:.9rem;opacity:.6;transition:opacity .2s;padding:2px;flex-shrink:0;margin-top:1px}
+    .ai-refresh:hover{opacity:1}
+    .ai-refresh.spinning{animation:spin .8s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* DATE STRIP */
     .date-strip{padding:12px 20px;display:flex;justify-content:space-between;align-items:center}
     .date-strip .ds-date{font-size:.8rem;font-weight:600;color:var(--muted)}
     .next-reminder{display:flex;align-items:center;gap:6px;background:rgba(74,158,255,.1);border:1px solid rgba(74,158,255,.2);border-radius:20px;padding:5px 12px;font-size:.72rem;font-weight:700;color:var(--blue)}
     .next-reminder .nd{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);flex-shrink:0}
 
-    /* ── SECTION LABEL ───────────────────────────────── */
     .sec-label{padding:0 20px;font-size:.65rem;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
 
-    /* ── DRINK BUTTONS ───────────────────────────────── */
+    /* DRINK BUTTONS */
     .drinks-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 20px;margin-bottom:24px}
     .drink-btn{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
     .drink-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--blue),var(--cyan));opacity:0;transition:opacity .2s}
@@ -85,19 +84,13 @@
     .drink-btn.sel .drink-ml{color:var(--blue)}
     .drink-label{font-size:.6rem;color:var(--dim);position:relative}
 
-    /* ── LOG BUTTON ──────────────────────────────────── */
+    /* LOG BUTTON */
     .log-section{padding:0 20px;margin-bottom:24px}
-    .log-btn{width:100%;padding:18px;border-radius:18px;border:none;
-      background:linear-gradient(135deg,var(--blue2),var(--blue));
-      color:#fff;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:800;
-      cursor:pointer;transition:all .25s;letter-spacing:.3px;
-      box-shadow:0 6px 28px rgba(74,158,255,.4);position:relative;overflow:hidden}
-    .log-btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.1);opacity:0;transition:opacity .2s}
-    .log-btn:hover::after{opacity:1}
+    .log-btn{width:100%;padding:18px;border-radius:18px;border:none;background:linear-gradient(135deg,var(--blue2),var(--blue));color:#fff;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:800;cursor:pointer;transition:all .25s;letter-spacing:.3px;box-shadow:0 6px 28px rgba(74,158,255,.4);position:relative;overflow:hidden}
     .log-btn:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(74,158,255,.5)}
     .log-btn:active{transform:scale(.97)}
 
-    /* ── STATS ROW ───────────────────────────────────── */
+    /* STATS */
     .stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:0 20px;margin-bottom:24px}
     .stat-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px 12px;display:flex;flex-direction:column;gap:4px}
     .stat-val{font-size:1.3rem;font-weight:800;letter-spacing:-.5px}
@@ -106,7 +99,7 @@
     .stat-card:nth-child(2) .stat-val{color:var(--green)}
     .stat-card:nth-child(3) .stat-val{color:var(--gold)}
 
-    /* ── REMINDER CARD ───────────────────────────────── */
+    /* REMINDER CARD */
     .reminder-card{margin:0 20px 24px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:18px;display:none}
     .reminder-card.show{display:block}
     .rc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
@@ -123,23 +116,26 @@
     .rcc-text{font-size:.72rem;color:var(--muted)}
     .rcc-time{font-size:1.2rem;font-weight:800;color:var(--blue);letter-spacing:-.3px}
 
-    /* ── SETTINGS CARD ───────────────────────────────── */
+    /* SETTINGS */
     .settings-card{margin:0 20px 24px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:18px}
     .settings-card h3{font-size:.85rem;font-weight:800;margin-bottom:14px}
     .fields{display:flex;flex-direction:column;gap:10px}
     .field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .field{display:flex;flex-direction:column;gap:5px}
     .field label{font-size:.62rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
-    .field input,.field textarea{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:11px 13px;color:var(--text);font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:600;outline:none;transition:border-color .2s;width:100%}
-    .field input:focus,.field textarea:focus{border-color:var(--blue);background:rgba(74,158,255,.06)}
-    .field textarea{resize:none;height:72px;line-height:1.5}
+    .field input,.field select{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:11px 13px;color:var(--text);font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:600;outline:none;transition:border-color .2s;width:100%}
+    .field input:focus,.field select:focus{border-color:var(--blue);background:rgba(74,158,255,.06)}
 
-    /* message tags */
-    .msg-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
-    .msg-tag{background:rgba(74,158,255,.1);border:1px solid rgba(74,158,255,.2);border-radius:20px;padding:4px 10px;font-size:.65rem;font-weight:700;color:var(--blue);cursor:pointer;transition:all .2s}
-    .msg-tag:hover{background:rgba(74,158,255,.2)}
+    /* TONE SELECTOR */
+    .tone-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2px}
+    .tone-btn{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:10px 12px;cursor:pointer;transition:all .2s;text-align:left}
+    .tone-btn.sel{border-color:var(--blue);background:rgba(74,158,255,.1)}
+    .tone-btn .tb-emoji{font-size:1.1rem;display:block;margin-bottom:3px}
+    .tone-btn .tb-name{font-size:.72rem;font-weight:800;color:var(--text)}
+    .tone-btn .tb-desc{font-size:.62rem;color:var(--muted);margin-top:1px}
+    .tone-btn.sel .tb-name{color:var(--blue)}
 
-    /* ── HISTORY CARD ────────────────────────────────── */
+    /* HISTORY */
     .history-card{margin:0 20px 24px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:18px}
     .hc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
     .hc-top h3{font-size:.85rem;font-weight:800}
@@ -150,22 +146,22 @@
     .log-list::-webkit-scrollbar-thumb{background:var(--dim);border-radius:3px}
     .log-empty{text-align:center;padding:16px;color:var(--muted);font-size:.8rem}
     .log-item{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.03);border-radius:12px;padding:10px 13px;animation:slideIn .3s ease}
+    .log-item .li-msg{font-size:.7rem;color:var(--muted);margin-top:2px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     @keyframes slideIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
     .li-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);flex-shrink:0;box-shadow:0 0 6px var(--blue)}
-    .li-amt{font-size:.88rem;font-weight:800}
-    .li-time{margin-left:auto;font-size:.7rem;color:var(--muted);font-weight:600}
+    .li-amt{font-size:.88rem;font-weight:800;flex-shrink:0}
+    .li-time{margin-left:auto;font-size:.7rem;color:var(--muted);font-weight:600;flex-shrink:0}
 
-    /* ── INSTALL BANNER ──────────────────────────────── */
+    /* INSTALL BANNER */
     .install-banner{margin:16px 20px 0;background:linear-gradient(135deg,rgba(74,158,255,.15),rgba(0,212,255,.1));border:1px solid rgba(74,158,255,.25);border-radius:16px;padding:14px 16px;display:none;gap:12px;align-items:center}
     .install-banner.show{display:flex}
     .ib-text{flex:1;font-size:.78rem;font-weight:600;color:var(--text);line-height:1.5}
     .ib-btn{background:var(--blue);border:none;border-radius:10px;padding:9px 16px;color:#fff;font-family:'Nunito',sans-serif;font-size:.78rem;font-weight:800;cursor:pointer;white-space:nowrap;flex-shrink:0}
-
     .ios-notice{margin:12px 20px 0;background:rgba(155,109,255,.1);border:1px solid rgba(155,109,255,.25);border-radius:14px;padding:13px 15px;font-size:.75rem;font-weight:600;color:#c4a8ff;line-height:1.6;display:none}
     .ios-notice strong{color:var(--text)}
 
-    /* ── NOTIFICATION OVERLAY ────────────────────────── */
-    .notif-overlay{position:fixed;inset:0;z-index:1000;background:rgba(7,10,20,.9);backdrop-filter:blur(16px);display:none;align-items:center;justify-content:center;padding:24px}
+    /* OVERLAY */
+    .notif-overlay{position:fixed;inset:0;z-index:1000;background:rgba(7,10,20,.92);backdrop-filter:blur(20px);display:none;align-items:center;justify-content:center;padding:24px}
     .notif-overlay.show{display:flex}
     .notif-card{background:linear-gradient(160deg,#1a2540,#111827);border:1px solid rgba(74,158,255,.3);border-radius:28px;padding:40px 28px;text-align:center;max-width:340px;width:100%;animation:popIn .5s cubic-bezier(.34,1.56,.64,1)}
     @keyframes popIn{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
@@ -173,25 +169,25 @@
     @keyframes waveDrop{from{transform:translateY(-30px);opacity:0}to{transform:translateY(0);opacity:1}}
     .nc-title{font-size:1.6rem;font-weight:800;margin-bottom:4px}
     .nc-sub{font-size:.78rem;color:var(--muted);margin-bottom:10px}
-    .nc-msg{font-size:.9rem;font-weight:600;color:var(--cyan);margin-bottom:28px;line-height:1.6;background:rgba(0,212,255,.07);border-radius:12px;padding:12px 16px}
+    .nc-msg{font-size:.9rem;font-weight:600;color:var(--cyan);margin-bottom:28px;line-height:1.7;background:rgba(0,212,255,.07);border:1px solid rgba(0,212,255,.12);border-radius:14px;padding:14px 16px;min-height:56px;display:flex;align-items:center;justify-content:center}
+    .nc-msg.loading{color:var(--muted);font-style:italic;font-size:.82rem}
     .nc-actions{display:flex;flex-direction:column;gap:8px}
     .nc-log-btn{padding:16px;border-radius:16px;border:none;background:linear-gradient(135deg,var(--blue2),var(--blue));color:#fff;font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:800;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px rgba(74,158,255,.4)}
     .nc-log-btn:hover{transform:translateY(-2px)}
     .nc-skip{padding:12px;border-radius:14px;border:1px solid var(--border);background:none;color:var(--muted);font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .2s}
     .nc-skip:hover{border-color:var(--dim);color:var(--text)}
 
-    /* ── TOAST ───────────────────────────────────────── */
-    .toast{position:fixed;top:max(env(safe-area-inset-top),16px);left:50%;transform:translateX(-50%) translateY(-140px);background:#1C2233;border:1px solid rgba(74,158,255,.3);border-radius:18px;padding:12px 20px;font-size:.82rem;font-weight:700;color:var(--text);z-index:2000;box-shadow:0 8px 32px rgba(0,0,0,.6);transition:transform .4s cubic-bezier(.34,1.56,.64,1);max-width:300px;width:calc(100% - 40px);display:flex;align-items:center;gap:10px}
+    /* TOAST */
+    .toast{position:fixed;top:max(env(safe-area-inset-top),16px);left:50%;transform:translateX(-50%) translateY(-140px);background:#1C2233;border:1px solid rgba(74,158,255,.3);border-radius:18px;padding:12px 20px;font-size:.82rem;font-weight:700;color:var(--text);z-index:2000;box-shadow:0 8px 32px rgba(0,0,0,.6);transition:transform .4s cubic-bezier(.34,1.56,.64,1);max-width:320px;width:calc(100% - 40px);display:flex;align-items:center;gap:10px}
     .toast.show{transform:translateX(-50%) translateY(0)}
     .toast-emoji{font-size:1.2rem;flex-shrink:0}
 
-    /* ── RIPPLE EFFECT ───────────────────────────────── */
     .ripple{position:absolute;border-radius:50%;background:rgba(74,158,255,.3);transform:scale(0);animation:ripple .6s linear;pointer-events:none}
     @keyframes ripple{to{transform:scale(4);opacity:0}}
-
     @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
     .app>*{animation:rise .6s ease both}
     .ring-section{animation-delay:.05s}
+    .ai-message-strip{animation-delay:.08s}
     .drinks-grid{animation-delay:.1s}
     .log-section{animation-delay:.13s}
     .stats-row{animation-delay:.16s}
@@ -200,7 +196,6 @@
 <body>
 <div class="bg-glow"></div>
 
-<!-- Toast -->
 <div class="toast" id="toast"><span class="toast-emoji" id="toastEmoji">💧</span><span id="toastMsg"></span></div>
 
 <!-- Hourly reminder overlay -->
@@ -208,8 +203,8 @@
   <div class="notif-card">
     <span class="nc-wave">💧</span>
     <div class="nc-title">Time to Hydrate!</div>
-    <div class="nc-sub" id="overlayName">Stay hydrated, my love</div>
-    <div class="nc-msg" id="overlayMsg">Drink a glass of water right now 🌊</div>
+    <div class="nc-sub" id="overlayName">Stay hydrated 💙</div>
+    <div class="nc-msg loading" id="overlayMsg">✨ Generating your message...</div>
     <div class="nc-actions">
       <button class="nc-log-btn" onclick="overlayLog()">✓ I Drank Water! (+250ml)</button>
       <button class="nc-skip" onclick="closeOverlay()">Remind me next hour</button>
@@ -219,7 +214,6 @@
 
 <div class="app">
 
-  <!-- Top Bar -->
   <div class="topbar">
     <div class="topbar-left">
       <h1 id="topName">Hydrate 💧</h1>
@@ -231,14 +225,13 @@
     </div>
   </div>
 
-  <!-- Install Banner -->
   <div class="install-banner" id="installBanner">
     <div class="ib-text"><strong>Install app</strong> for background notifications 📲</div>
     <button class="ib-btn" onclick="installPWA()">Install</button>
   </div>
-  <div class="ios-notice" id="iosNotice">📲 <strong>Install on iPhone:</strong> Tap Share → <strong>Add to Home Screen</strong> for full reminder support.</div>
+  <div class="ios-notice" id="iosNotice">📲 <strong>iPhone:</strong> Tap Share → <strong>Add to Home Screen</strong> for full support.</div>
 
-  <!-- Ring hero -->
+  <!-- Ring -->
   <div class="ring-section">
     <div class="ring-wrap">
       <svg class="ring-svg" viewBox="0 0 220 220">
@@ -250,8 +243,7 @@
           </linearGradient>
         </defs>
         <circle class="ring-track" cx="110" cy="110" r="95"/>
-        <circle class="ring-fill" id="ringFill" cx="110" cy="110" r="95"
-          stroke-dasharray="597" stroke-dashoffset="597"/>
+        <circle class="ring-fill" id="ringFill" cx="110" cy="110" r="95" stroke-dasharray="597" stroke-dashoffset="597"/>
       </svg>
       <div class="ring-center">
         <div class="ring-ml" id="ringMl">0</div>
@@ -263,6 +255,16 @@
     <div class="streak-badge" id="streakBadge">🔥 <span id="streakCount">0</span> day streak</div>
   </div>
 
+  <!-- AI Message Preview -->
+  <div class="ai-message-strip">
+    <span class="ai-msg-icon">✨</span>
+    <div class="ai-msg-body">
+      <div class="ai-msg-label">Next reminder message</div>
+      <div class="ai-msg-text loading" id="aiPreview">Enter her name in settings to generate a personalized message...</div>
+    </div>
+    <button class="ai-refresh" id="refreshBtn" onclick="refreshPreview()" title="Generate new message">🔄</button>
+  </div>
+
   <!-- Date + next reminder -->
   <div class="date-strip">
     <div class="ds-date" id="dateLabel"></div>
@@ -272,56 +274,36 @@
     </div>
   </div>
 
-  <!-- Quick drink buttons -->
   <div class="sec-label">Quick Add</div>
-  <div class="drinks-grid" id="drinksGrid">
+  <div class="drinks-grid">
     <div class="drink-btn sel" data-amt="150" onclick="selDrink(150,this)">
-      <span class="drink-icon">🥤</span>
-      <span class="drink-ml">150ml</span>
-      <span class="drink-label">small</span>
+      <span class="drink-icon">🥤</span><span class="drink-ml">150ml</span><span class="drink-label">small</span>
     </div>
     <div class="drink-btn" data-amt="250" onclick="selDrink(250,this)">
-      <span class="drink-icon">🧊</span>
-      <span class="drink-ml">250ml</span>
-      <span class="drink-label">glass</span>
+      <span class="drink-icon">🧊</span><span class="drink-ml">250ml</span><span class="drink-label">glass</span>
     </div>
     <div class="drink-btn" data-amt="350" onclick="selDrink(350,this)">
-      <span class="drink-icon">🫙</span>
-      <span class="drink-ml">350ml</span>
-      <span class="drink-label">large</span>
+      <span class="drink-icon">🫙</span><span class="drink-ml">350ml</span><span class="drink-label">large</span>
     </div>
     <div class="drink-btn" data-amt="500" onclick="selDrink(500,this)">
-      <span class="drink-icon">🍶</span>
-      <span class="drink-ml">500ml</span>
-      <span class="drink-label">bottle</span>
+      <span class="drink-icon">🍶</span><span class="drink-ml">500ml</span><span class="drink-label">bottle</span>
     </div>
   </div>
 
-  <!-- Log button -->
   <div class="log-section">
-    <button class="log-btn" id="logBtn" onclick="logWater()">
+    <button class="log-btn" onclick="logWater()">
       + Add <span id="logAmt">150</span> ml of Water
     </button>
   </div>
 
-  <!-- Stats -->
   <div class="sec-label">Today's Stats</div>
   <div class="stats-row">
-    <div class="stat-card">
-      <div class="stat-val" id="statMl">0</div>
-      <div class="stat-lbl">ml logged</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-val" id="statCups">0</div>
-      <div class="stat-lbl">drinks</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-val" id="statLeft">2000</div>
-      <div class="stat-lbl">ml left</div>
-    </div>
+    <div class="stat-card"><div class="stat-val" id="statMl">0</div><div class="stat-lbl">ml logged</div></div>
+    <div class="stat-card"><div class="stat-val" id="statCups">0</div><div class="stat-lbl">drinks</div></div>
+    <div class="stat-card"><div class="stat-val" id="statLeft">2000</div><div class="stat-lbl">ml left</div></div>
   </div>
 
-  <!-- Reminder card (shown when notifications on) -->
+  <!-- Reminder card -->
   <div class="reminder-card" id="reminderCard">
     <div class="rc-top">
       <h3>⏰ Hourly Reminder</h3>
@@ -333,7 +315,7 @@
         </label>
       </div>
     </div>
-    <div class="rc-countdown" id="countdownBox">
+    <div class="rc-countdown">
       <span class="rcc-icon">⏱️</span>
       <div>
         <div class="rcc-text">Next reminder in</div>
@@ -367,24 +349,42 @@
         </div>
       </div>
       <div class="field">
-        <label>Personalized Reminder Message</label>
-        <textarea id="msgInput" placeholder="e.g. Hey Vishali, drink water now! 💙 You got this!"></textarea>
-        <div class="msg-tags">
-          <span class="msg-tag" onclick="insertTag('{name}')">+ Name</span>
-          <span class="msg-tag" onclick="insertTag('💧')">+ 💧</span>
-          <span class="msg-tag" onclick="insertTag('💙')">+ 💙</span>
-          <span class="msg-tag" onclick="insertTag('🌊')">+ 🌊</span>
-          <span class="msg-tag" onclick="insertTag('✨')">+ ✨</span>
+        <label>Message Tone 🤖 AI picks the words</label>
+        <div class="tone-grid">
+          <div class="tone-btn sel" data-tone="romantic" onclick="selTone('romantic',this)">
+            <span class="tb-emoji">💙</span>
+            <div class="tb-name">Romantic</div>
+            <div class="tb-desc">Sweet & loving</div>
+          </div>
+          <div class="tone-btn" data-tone="playful" onclick="selTone('playful',this)">
+            <span class="tb-emoji">😄</span>
+            <div class="tb-name">Playful</div>
+            <div class="tb-desc">Fun & teasing</div>
+          </div>
+          <div class="tone-btn" data-tone="motivating" onclick="selTone('motivating',this)">
+            <span class="tb-emoji">💪</span>
+            <div class="tb-name">Motivating</div>
+            <div class="tb-desc">Energetic & hype</div>
+          </div>
+          <div class="tone-btn" data-tone="poetic" onclick="selTone('poetic',this)">
+            <span class="tb-emoji">🌸</span>
+            <div class="tb-name">Poetic</div>
+            <div class="tb-desc">Gentle & beautiful</div>
+          </div>
         </div>
       </div>
       <div class="field">
-        <label>Personalized Toast (logged confirmation)</label>
-        <input type="text" id="toastInput" placeholder="e.g. Good girl! Keep going 💪" oninput="saveField('toast',this.value)"/>
+        <label>Relationship (for context)</label>
+        <select id="relInput" onchange="saveField('rel',this.value)">
+          <option value="fiancee">Fiancée 💍</option>
+          <option value="wife">Wife 💑</option>
+          <option value="girlfriend">Girlfriend 💕</option>
+          <option value="friend">Friend 🤝</option>
+        </select>
       </div>
     </div>
   </div>
 
-  <!-- History -->
   <div class="sec-label">Today's Log</div>
   <div class="history-card">
     <div class="hc-top">
@@ -396,21 +396,21 @@
     </div>
   </div>
 
-</div><!-- /app -->
+</div>
 
 <script>
 // ── STATE ──────────────────────────────────────────────
 const S = {
-  intake: +localStorage.getItem('h_intake')||0,
-  goal:   +localStorage.getItem('h_goal')||2000,
-  name:   localStorage.getItem('h_name')||'',
-  start:  localStorage.getItem('h_start')||'09:00',
-  end:    localStorage.getItem('h_end')||'21:00',
-  msg:    localStorage.getItem('h_msg')||'',
-  toast:  localStorage.getItem('h_toast')||'',
-  logs:   JSON.parse(localStorage.getItem('h_logs')||'[]'),
-  streak: +localStorage.getItem('h_streak')||0,
-  lastDay:localStorage.getItem('h_lastDay')||'',
+  intake:  +localStorage.getItem('h_intake')||0,
+  goal:    +localStorage.getItem('h_goal')||2000,
+  name:    localStorage.getItem('h_name')||'',
+  start:   localStorage.getItem('h_start')||'09:00',
+  end:     localStorage.getItem('h_end')||'21:00',
+  tone:    localStorage.getItem('h_tone')||'romantic',
+  rel:     localStorage.getItem('h_rel')||'fiancee',
+  logs:    JSON.parse(localStorage.getItem('h_logs')||'[]'),
+  streak:  +localStorage.getItem('h_streak')||0,
+  lastDay: localStorage.getItem('h_lastDay')||'',
 };
 
 let selectedAmt = 150;
@@ -418,15 +418,19 @@ let notifOn = false;
 let cronTimer = null, countdownTimer = null, nextAt = null;
 let deferredInstall = null;
 let settingsOpen = false;
+let cachedMsg = null; // holds the pre-generated AI message for next reminder
+let msgCache = []; // pool of fetched messages
 
 // ── INIT ───────────────────────────────────────────────
 function init(){
   document.getElementById('goalInput').value  = S.goal;
   document.getElementById('nameInput').value  = S.name;
-  document.getElementById('msgInput').value   = S.msg;
-  document.getElementById('toastInput').value = S.toast;
   document.getElementById('startInput').value = S.start;
   document.getElementById('endInput').value   = S.end;
+  document.getElementById('relInput').value   = S.rel;
+  document.querySelectorAll('.tone-btn').forEach(b=>{
+    b.classList.toggle('sel', b.dataset.tone===S.tone);
+  });
   checkDayReset();
   updateUI();
   updateGreeting();
@@ -434,32 +438,27 @@ function init(){
   detectPlatform();
   registerSW();
   setInterval(updateDate, 60000);
+  if(S.name) loadAIPreview();
 }
 
 function checkDayReset(){
   const today = new Date().toDateString();
   if(S.lastDay && S.lastDay !== today){
-    // new day — update streak
     const yesterday = new Date(); yesterday.setDate(yesterday.getDate()-1);
     if(S.lastDay === yesterday.toDateString() && S.intake >= S.goal){
-      S.streak++; localStorage.setItem('h_streak', S.streak);
+      S.streak++; localStorage.setItem('h_streak',S.streak);
     } else if(S.intake < S.goal){
-      S.streak = 0; localStorage.setItem('h_streak', 0);
+      S.streak=0; localStorage.setItem('h_streak',0);
     }
-    S.intake = 0; S.logs = [];
-    localStorage.setItem('h_intake','0');
-    localStorage.setItem('h_logs','[]');
+    S.intake=0; S.logs=[]; localStorage.setItem('h_intake','0'); localStorage.setItem('h_logs','[]');
   }
-  S.lastDay = today;
-  localStorage.setItem('h_lastDay', today);
+  S.lastDay=today; localStorage.setItem('h_lastDay',today);
 }
 
 // ── SERVICE WORKER ─────────────────────────────────────
 function registerSW(){
   if('serviceWorker' in navigator){
-    navigator.serviceWorker.register('/sw.js')
-      .then(r=>console.log('SW:',r.scope))
-      .catch(e=>console.warn('SW fail',e));
+    navigator.serviceWorker.register('/sw.js').catch(e=>console.warn('SW',e));
     navigator.serviceWorker.addEventListener('message',e=>{
       if(e.data?.type==='LOG_WATER') logWater(e.data.amt||250);
     });
@@ -468,9 +467,9 @@ function registerSW(){
 
 // ── PLATFORM ───────────────────────────────────────────
 function detectPlatform(){
-  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  const standalone = window.matchMedia('(display-mode:standalone)').matches||navigator.standalone;
-  if(isIOS && !standalone) document.getElementById('iosNotice').style.display='block';
+  const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  const standalone=window.matchMedia('(display-mode:standalone)').matches||navigator.standalone;
+  if(isIOS&&!standalone) document.getElementById('iosNotice').style.display='block';
   window.addEventListener('beforeinstallprompt',e=>{
     e.preventDefault(); deferredInstall=e;
     document.getElementById('installBanner').classList.add('show');
@@ -486,99 +485,74 @@ function installPWA(){
   });
 }
 
-// ── SAVE FIELD ─────────────────────────────────────────
+// ── SETTINGS ───────────────────────────────────────────
 function saveField(k,v){
   S[k]=v; localStorage.setItem('h_'+k,v);
-  if(k==='goal'){S.goal=+v||2000;}
-  if(k==='name') updateGreeting();
-  if(k==='start'||k==='end'){
-    const [h]=v.split(':'); k==='start'?S.start=v:S.end=v;
-  }
+  if(k==='goal') S.goal=+v||2000;
+  if(k==='name'){ updateGreeting(); updateUI(); if(v.trim()) loadAIPreview(); }
+  if(k==='tone'||k==='rel') loadAIPreview();
 }
 
-function insertTag(tag){
-  const ta = document.getElementById('msgInput');
-  const pos=ta.selectionStart;
-  ta.value = ta.value.slice(0,pos)+tag+ta.value.slice(ta.selectionEnd);
-  ta.selectionStart=ta.selectionEnd=pos+tag.length;
-  ta.focus(); saveField('msg',ta.value);
+function selTone(tone,el){
+  S.tone=tone; localStorage.setItem('h_tone',tone);
+  document.querySelectorAll('.tone-btn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+  msgCache=[]; // clear cache when tone changes
+  loadAIPreview();
 }
 
-// ── SELECT DRINK ───────────────────────────────────────
+function toggleSettings(){
+  settingsOpen=!settingsOpen;
+  document.getElementById('settingsCard').style.display=settingsOpen?'block':'none';
+}
+
+// ── DRINK SELECT ───────────────────────────────────────
 function selDrink(amt,el){
   selectedAmt=amt;
   document.querySelectorAll('.drink-btn').forEach(b=>b.classList.remove('sel'));
   el.classList.add('sel');
   document.getElementById('logAmt').textContent=amt;
-  addRipple(el);
-}
-
-function addRipple(el){
-  const r=document.createElement('div'); r.className='ripple';
-  const rect=el.getBoundingClientRect();
-  r.style.cssText=`width:${rect.width}px;height:${rect.width}px;left:0;top:${(rect.height-rect.width)/2}px`;
-  el.appendChild(r); setTimeout(()=>r.remove(),700);
 }
 
 // ── LOG WATER ──────────────────────────────────────────
-function logWater(amt){
-  amt = amt||selectedAmt;
+async function logWater(amt){
+  amt=amt||selectedAmt;
   S.intake+=amt;
   const now=new Date();
-  S.logs.unshift({amt,time:now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});
+  S.logs.unshift({amt, time:now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});
   localStorage.setItem('h_intake',S.intake);
   localStorage.setItem('h_logs',JSON.stringify(S.logs));
   updateUI();
-
-  // personalized toast or default
-  const n = S.name||'you';
-  const customToast = S.toast.trim().replace(/\{name\}/gi,n);
-  const defaultToasts = [
-    `+${amt}ml! Amazing, ${n} 💙`,
-    `+${amt}ml! Keep going ${n} 🌊`,
-    `+${amt}ml! You're glowing, ${n} ✨`,
-    `+${amt}ml! Body says thank you, ${n} 💎`,
-  ];
-  const msg = customToast || defaultToasts[Math.floor(Math.random()*defaultToasts.length)];
-  showToast(msg,'💧');
-
   if(navigator.vibrate) navigator.vibrate(60);
 
-  // goal reached celebration
-  if(S.intake >= S.goal && S.intake-amt < S.goal){
-    setTimeout(()=>showToast(`🎉 Goal reached! You're amazing, ${n}!`,'🎉'),800);
+  // AI toast message
+  const toastMsg = await generateMessage('toast');
+  showToast(toastMsg, '💧');
+
+  if(S.intake>=S.goal && S.intake-amt<S.goal){
+    setTimeout(async()=>{
+      const celebMsg = await generateMessage('celebrate');
+      showToast(celebMsg,'🎉');
+    },900);
   }
 }
 
-function overlayLog(){
-  logWater(250); closeOverlay();
-}
+function overlayLog(){ logWater(250); closeOverlay(); }
 
-// ── UPDATE UI ──────────────────────────────────────────
+// ── UI ─────────────────────────────────────────────────
 function updateUI(){
-  const pct = Math.min(S.intake/S.goal,1);
-  const circ = 2*Math.PI*95; // 597
-
-  // ring
-  document.getElementById('ringFill').style.strokeDashoffset = circ*(1-pct);
-  document.getElementById('ringMl').textContent = S.intake;
-  document.getElementById('ringMl').style.color = pct>=1?'#00E5A0':'#F0F4FF';
-  document.getElementById('ringGoal').textContent = `Goal: ${S.goal} ml`;
-  document.getElementById('ringPct').textContent = Math.round(pct*100)+'%';
-
-  // stats
-  document.getElementById('statMl').textContent = S.intake;
-  document.getElementById('statCups').textContent = S.logs.length;
-  document.getElementById('statLeft').textContent = Math.max(S.goal-S.intake,0);
-
-  // streak
-  document.getElementById('streakCount').textContent = S.streak;
-
-  // top name
-  const n=S.name; 
-  document.getElementById('topName').textContent = n ? `${n}'s Hydration 💧` : 'Hydrate 💧';
-
-  // log list
+  const pct=Math.min(S.intake/S.goal,1);
+  document.getElementById('ringFill').style.strokeDashoffset=597*(1-pct);
+  document.getElementById('ringMl').textContent=S.intake;
+  document.getElementById('ringMl').style.color=pct>=1?'#00E5A0':'#F0F4FF';
+  document.getElementById('ringGoal').textContent=`Goal: ${S.goal} ml`;
+  document.getElementById('ringPct').textContent=Math.round(pct*100)+'%';
+  document.getElementById('statMl').textContent=S.intake;
+  document.getElementById('statCups').textContent=S.logs.length;
+  document.getElementById('statLeft').textContent=Math.max(S.goal-S.intake,0);
+  document.getElementById('streakCount').textContent=S.streak;
+  const n=S.name;
+  document.getElementById('topName').textContent=n?`${n}'s Hydration 💧`:'Hydrate 💧';
   const list=document.getElementById('logList');
   if(!S.logs.length){
     list.innerHTML='<div class="log-empty">No water logged yet 🌊<br>Start drinking!</div>';
@@ -589,35 +563,130 @@ function updateUI(){
   }
 }
 
-// ── GREETING ───────────────────────────────────────────
 function updateGreeting(){
   const h=new Date().getHours(), n=S.name||'there';
-  const g = h<12?'Good morning':'h<17'?'Good afternoon':'Good evening';
-  const emoji = h<12?'☀️':h<17?'🌤️':'🌙';
-  const hr = h<12?'morning':h<17?'afternoon':'evening';
-  document.getElementById('topGreeting').textContent=`Good ${hr}, ${n} ${emoji}`;
+  const hr=h<12?'morning':h<17?'afternoon':'evening';
+  const em=h<12?'☀️':h<17?'🌤️':'🌙';
+  document.getElementById('topGreeting').textContent=`Good ${hr}, ${n} ${em}`;
 }
 
-// ── DATE ───────────────────────────────────────────────
 function updateDate(){
   document.getElementById('dateLabel').textContent=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
   updateGreeting();
 }
 
-// ── SETTINGS TOGGLE ────────────────────────────────────
-function toggleSettings(){
-  settingsOpen=!settingsOpen;
-  document.getElementById('settingsCard').style.display=settingsOpen?'block':'none';
+// ── AI MESSAGE GENERATION ──────────────────────────────
+function buildPrompt(type){
+  const n = S.name||'her';
+  const rel = S.rel==='fiancee'?'fiancée':S.rel==='wife'?'wife':S.rel==='girlfriend'?'girlfriend':'friend';
+  const tone = S.tone;
+  const h = new Date().getHours();
+  const timeOfDay = h<12?'morning':h<17?'afternoon':'evening';
+  const pct = Math.round(Math.min(S.intake/S.goal,1)*100);
+
+  const toneGuide = {
+    romantic:   'romantic, tender, deeply loving, like a caring partner who adores her',
+    playful:    'playful, teasing, fun and lighthearted, like a best friend with a goofy sense of humor',
+    motivating: 'energetic, hype, encouraging, like a supportive coach who believes in her',
+    poetic:     'poetic, gentle, beautiful, using nature metaphors and soft imagery',
+  }[tone]||'loving';
+
+  if(type==='reminder'){
+    return `You are sending a water reminder notification to someone's ${rel} named ${n}. 
+Time of day: ${timeOfDay}. She has drunk ${pct}% of her daily water goal today.
+Write ONE short, ${toneGuide} water reminder message (max 2 sentences, under 120 characters).
+Use her name ${n} naturally. Add 1-2 relevant emojis. 
+Do NOT use quotes. Do NOT add any explanation. Output ONLY the message text.`;
+  }
+
+  if(type==='toast'){
+    return `Someone just logged drinking water in a hydration app. Their ${rel}'s name is ${n}.
+Write ONE very short, ${toneGuide} congratulatory message (max 60 characters).
+Use her name. Add 1 emoji. No quotes. Output ONLY the message text.`;
+  }
+
+  if(type==='celebrate'){
+    return `${n} just hit her daily water goal! She's someone's ${rel}.
+Write ONE short, ${toneGuide} celebration message (max 80 characters).
+Use her name. Add 1-2 emojis. No quotes. Output ONLY the message text.`;
+  }
 }
+
+async function callClaude(prompt){
+  const res = await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({
+      model:'claude-sonnet-4-20250514',
+      max_tokens:150,
+      messages:[{role:'user',content:prompt}]
+    })
+  });
+  if(!res.ok) throw new Error('API error '+res.status);
+  const data = await res.json();
+  return data.content?.[0]?.text?.trim()||null;
+}
+
+async function generateMessage(type='reminder'){
+  if(!S.name) return fallback(type);
+  // use cache for reminders
+  if(type==='reminder' && msgCache.length>0){
+    return msgCache.shift();
+  }
+  try{
+    const msg = await callClaude(buildPrompt(type));
+    return msg || fallback(type);
+  } catch(e){
+    console.warn('Claude API error:',e);
+    return fallback(type);
+  }
+}
+
+function fallback(type){
+  const n=S.name||'love';
+  if(type==='toast') return `+${selectedAmt}ml! Amazing, ${n} 💙`;
+  if(type==='celebrate') return `🎉 Goal crushed, ${n}! You're incredible!`;
+  return `Hey ${n}! 💧 Time to drink some water. Stay hydrated! 🌊`;
+}
+
+// Pre-generate and cache the next reminder message
+async function prefetchReminderMsg(){
+  if(!S.name||msgCache.length>0) return;
+  try{
+    const msg = await callClaude(buildPrompt('reminder'));
+    if(msg) msgCache.push(msg);
+  } catch(e){}
+}
+
+// Load preview in the strip
+async function loadAIPreview(){
+  if(!S.name.trim()) return;
+  const preview = document.getElementById('aiPreview');
+  const btn = document.getElementById('refreshBtn');
+  preview.className='ai-msg-text loading';
+  preview.textContent='✨ Generating...';
+  btn.classList.add('spinning');
+  try{
+    const msg = await callClaude(buildPrompt('reminder'));
+    preview.className='ai-msg-text';
+    preview.textContent = msg||fallback('reminder');
+    cachedMsg = msg; // pre-cache for first reminder
+  } catch(e){
+    preview.className='ai-msg-text';
+    preview.textContent = fallback('reminder');
+  }
+  btn.classList.remove('spinning');
+}
+
+function refreshPreview(){ loadAIPreview(); }
 
 // ── NOTIFICATIONS ──────────────────────────────────────
 async function toggleNotif(){
-  // sync with checkbox
   const chk=document.getElementById('notifCheck');
   if(!notifOn){
     if('Notification' in window && Notification.permission!=='granted'){
       const p=await Notification.requestPermission();
-      if(p!=='granted') showToast('Permission denied — in-app alerts active','⚠️');
+      if(p!=='granted') showToast('No permission — in-app alerts active','⚠️');
     }
     notifOn=true; chk.checked=true;
     document.getElementById('notifBtn').classList.add('active');
@@ -641,12 +710,20 @@ async function toggleNotif(){
 function startReminders(){
   stopReminders();
   const now=new Date();
-  const msToNext=(60-now.getMinutes())*60000 - now.getSeconds()*1000 - now.getMilliseconds();
+  const msToNext=(60-now.getMinutes())*60000-now.getSeconds()*1000-now.getMilliseconds();
   nextAt=new Date(now.getTime()+msToNext);
   countdownTimer=setInterval(tickCountdown,1000); tickCountdown();
+  // pre-fetch a message ~5 min before the hour
+  setTimeout(prefetchReminderMsg, Math.max(msToNext-300000, 0));
   cronTimer=setTimeout(()=>{
-    fireReminder(); nextAt=new Date(Date.now()+3600000);
-    cronTimer=setInterval(()=>{ fireReminder(); nextAt=new Date(Date.now()+3600000); },3600000);
+    fireReminder();
+    nextAt=new Date(Date.now()+3600000);
+    cronTimer=setInterval(()=>{
+      fireReminder();
+      nextAt=new Date(Date.now()+3600000);
+      // pre-fetch for the NEXT hour
+      setTimeout(prefetchReminderMsg, 3300000); // 55 min later
+    },3600000);
   },msToNext);
 }
 
@@ -662,44 +739,47 @@ function tickCountdown(){
   if(!nextAt)return;
   const d=nextAt-Date.now();
   if(d<=0){document.getElementById('countdownTime').textContent='Now!';return;}
-  const m=Math.floor(d/60000), s=Math.floor((d%60000)/1000);
+  const m=Math.floor(d/60000),s=Math.floor((d%60000)/1000);
   const str=`${m}m ${s<10?'0'+s:s}s`;
   document.getElementById('countdownTime').textContent=str;
   document.getElementById('nextTime').textContent=str;
 }
 
-function fireReminder(){
+async function fireReminder(){
   const h=new Date().getHours();
-  const sh=parseInt(S.start.split(':')[0]), eh=parseInt(S.end.split(':')[0]);
-  if(h<sh||h>=eh)return;
+  const sh=parseInt(S.start.split(':')[0]),eh=parseInt(S.end.split(':')[0]);
+  if(h<sh||h>=eh) return;
 
   const n=S.name||'love';
-  const defaultMsgs=[
-    `Hey ${n}! 💧 Time for a glass of water. Your body is counting on you!`,
-    `${n}, hydration check! 🌊 A sip now keeps the headaches away.`,
-    `Drink water, ${n}! 💙 You deserve to feel amazing today.`,
-    `${n}, your hourly reminder 🥤 — even a small glass makes a big difference!`,
-    `Stay glowing, ${n}! ✨ Drink some water right now.`,
-  ];
-  const msg=(S.msg.trim()||defaultMsgs[Math.floor(Math.random()*defaultMsgs.length)]).replace(/\{name\}/gi,n);
 
-  // Push notification
+  // Show overlay immediately with loading state
+  document.getElementById('overlayMsg').className='nc-msg loading';
+  document.getElementById('overlayMsg').textContent='✨ Generating your message...';
+  document.getElementById('overlayName').textContent=n?`For you, ${n} 💙`:'Stay hydrated 💙';
+  document.getElementById('overlay').classList.add('show');
+  playDrop();
+  if(navigator.vibrate) navigator.vibrate([300,100,300]);
+
+  // Get AI message (uses cache if pre-fetched)
+  const msg = await generateMessage('reminder');
+
+  // Update overlay
+  document.getElementById('overlayMsg').className='nc-msg';
+  document.getElementById('overlayMsg').textContent=msg;
+
+  // Also update preview strip
+  document.getElementById('aiPreview').className='ai-msg-text';
+  document.getElementById('aiPreview').textContent=msg;
+
+  // Browser push notification
   if('Notification' in window && Notification.permission==='granted'){
-    const notif=new Notification(`💧 Hydrate, ${n}!`,{
+    const notif=new Notification(`💧 ${n}, time to hydrate!`,{
       body:msg, icon:'/icons/icon-192.png', badge:'/icons/icon-192.png',
       vibrate:[200,100,200], tag:'water', renotify:true,
-      actions:[{action:'logged',title:'✓ Drank water!'},{action:'skip',title:'Skip'}]
+      actions:[{action:'log',title:'✓ I drank!'},{action:'skip',title:'Skip'}]
     });
     notif.onclick=()=>{window.focus();notif.close();};
   }
-
-  // In-app overlay
-  document.getElementById('overlayMsg').textContent=msg;
-  document.getElementById('overlayName').textContent=n?`For you, ${n} 💙`:'Stay hydrated 💙';
-  document.getElementById('overlay').classList.add('show');
-
-  playDrop();
-  if(navigator.vibrate) navigator.vibrate([300,100,300]);
 }
 
 function closeOverlay(){ document.getElementById('overlay').classList.remove('show'); }
@@ -708,13 +788,13 @@ function closeOverlay(){ document.getElementById('overlay').classList.remove('sh
 function playDrop(){
   try{
     const ctx=new(window.AudioContext||window.webkitAudioContext)();
-    [[880,.0],[660,.12],[440,.24]].forEach(([freq,t])=>{
-      const o=ctx.createOscillator(), g=ctx.createGain();
-      o.connect(g); g.connect(ctx.destination);
-      o.type='sine'; o.frequency.setValueAtTime(freq,ctx.currentTime+t);
+    [[880,0],[660,.12],[440,.24]].forEach(([f,t])=>{
+      const o=ctx.createOscillator(),g=ctx.createGain();
+      o.connect(g);g.connect(ctx.destination);
+      o.type='sine';o.frequency.setValueAtTime(f,ctx.currentTime+t);
       g.gain.setValueAtTime(.25,ctx.currentTime+t);
       g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+t+.5);
-      o.start(ctx.currentTime+t); o.stop(ctx.currentTime+t+.5);
+      o.start(ctx.currentTime+t);o.stop(ctx.currentTime+t+.5);
     });
   }catch(e){}
 }
@@ -726,16 +806,16 @@ function showToast(msg,emoji='💧'){
   const t=document.getElementById('toast');
   t.classList.add('show');
   clearTimeout(t._timer);
-  t._timer=setTimeout(()=>t.classList.remove('show'),3000);
+  t._timer=setTimeout(()=>t.classList.remove('show'),3200);
 }
 
 // ── RESET ──────────────────────────────────────────────
 function resetDay(){
-  if(!confirm('Reset today\'s water log?'))return;
-  S.intake=0; S.logs=[];
+  if(!confirm('Reset today\'s log?'))return;
+  S.intake=0;S.logs=[];
   localStorage.setItem('h_intake','0');
   localStorage.setItem('h_logs','[]');
-  updateUI(); showToast('Fresh start! 🌊','🌊');
+  updateUI();showToast('Fresh start! 🌊','🌊');
 }
 
 init();
